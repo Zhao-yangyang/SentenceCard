@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景圆形 -->
+    <circle cx="64" cy="64" r="60" fill="#1a73e8"/>
+    
+    <!-- 引号装饰 -->
+    <path d="M45 40C45 37.7909 46.7909 36 49 36H79C81.2091 36 83 37.7909 83 40V70C83 72.2091 81.2091 74 79 74H49C46.7909 74 45 72.2091 45 70V40Z" fill="white"/>
+    
+    <!-- 文本线条 -->
+    <rect x="52" y="48" width="24" height="4" rx="2" fill="#1a73e8"/>
+    <rect x="52" y="58" width="18" height="4" rx="2" fill="#1a73e8"/>
+    
+    <!-- 导出箭头 -->
+    <path d="M64 78L56 86H72L64 78Z" fill="#1a73e8"/>
+    <rect x="62" y="84" width="4" height="12" fill="#1a73e8"/>
+</svg> 
