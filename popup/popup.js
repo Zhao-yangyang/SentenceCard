@@ -33,7 +33,7 @@ const fontFamilyMap = {
 const templates = {
   sunset: {
     bgStyle: 'gradient',
-    gradientDirection: 'diagonal',
+    gradientDirection: 'horizontal',
     bgColor: '#FF6B6B',
     bgColor2: '#4ECDC4',
     textColor: '#FFFFFF',
@@ -44,7 +44,7 @@ const templates = {
   },
   ocean: {
     bgStyle: 'gradient',
-    gradientDirection: 'diagonal',
+    gradientDirection: 'horizontal',
     bgColor: '#2193b0',
     bgColor2: '#6dd5ed',
     textColor: '#FFFFFF',
@@ -55,7 +55,7 @@ const templates = {
   },
   forest: {
     bgStyle: 'gradient',
-    gradientDirection: 'diagonal',
+    gradientDirection: 'horizontal',
     bgColor: '#11998e',
     bgColor2: '#38ef7d',
     textColor: '#FFFFFF',
@@ -66,7 +66,7 @@ const templates = {
   },
   purple: {
     bgStyle: 'gradient',
-    gradientDirection: 'diagonal',
+    gradientDirection: 'horizontal',
     bgColor: '#834d9b',
     bgColor2: '#d04ed6',
     textColor: '#FFFFFF',
@@ -79,7 +79,6 @@ const templates = {
 
 // 获取选中的文本
 window.addEventListener('load', () => {
-  applyTemplate('sunset');
   chrome.storage.local.get(['selectedText'], (result) => {
     if (result.selectedText) {
       selectedText = result.selectedText;
@@ -111,13 +110,13 @@ paddingInput.addEventListener('input', () => {
 function createGradient() {
   let gradient;
   switch (gradientDirectionSelect.value) {
-    case 'horizontal':
+    case 'diagonal':
       gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
       break;
     case 'vertical':
       gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
       break;
-    case 'diagonal':
+    case 'horizontal':
       gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
       break;
   }
@@ -170,7 +169,7 @@ function drawCanvas() {
   ctx.textAlign = textAlignSelect.value;
   ctx.textBaseline = 'middle';
   
-  // 计算可用宽度
+  // 计算可用��度
   const padding = parseInt(paddingInput.value);
   const maxWidth = canvas.width - (padding * 2);
   
@@ -217,28 +216,12 @@ function drawCanvas() {
   input.addEventListener('change', drawCanvas);
 });
 
-// 导出PNG
-exportBtn.addEventListener('click', () => {
-  const link = document.createElement('a');
-  link.download = '金句.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-});
-
-// 复制到剪贴板
-copyBtn.addEventListener('click', async () => {
-  try {
-    const blob = await new Promise(resolve => canvas.toBlob(resolve));
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        'image/png': blob
-      })
-    ]);
-    alert('已复制到剪贴板！');
-  } catch (err) {
-    alert('复制失败，请重试');
-    console.error('复制失败:', err);
-  }
+// 监听模板点击事件
+document.querySelectorAll('.template-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const templateName = item.dataset.template;
+    applyTemplate(templateName);
+  });
 });
 
 // 应用模板
@@ -270,10 +253,26 @@ function applyTemplate(templateName) {
   drawCanvas();
 }
 
-// 监听模板点击事件
-document.querySelectorAll('.template-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const templateName = item.dataset.template;
-    applyTemplate(templateName);
-  });
+// 导出PNG
+exportBtn.addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.download = '金句.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+});
+
+// 复制到剪贴板
+copyBtn.addEventListener('click', async () => {
+  try {
+    const blob = await new Promise(resolve => canvas.toBlob(resolve));
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        'image/png': blob
+      })
+    ]);
+    alert('已复制到剪贴板！');
+  } catch (err) {
+    alert('复制失败，请重试');
+    console.error('复制失败:', err);
+  }
 }); 
